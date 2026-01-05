@@ -11,7 +11,7 @@ import httpx
 from mcp.server.fastmcp import FastMCP
 
 # Configuration
-API_BASE_URL = os.getenv("SIMSAR_API_URL", "https://mirat.dev/projects/simsar/api")
+API_BASE_URL = os.getenv("SIMSAR_API_URL", "https://simsar.trade/api")
 
 # Initialize MCP server
 mcp = FastMCP(

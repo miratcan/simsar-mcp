@@ -20,7 +20,7 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://mirat.dev/projects/simsar"
+Homepage = "https://simsar.trade"
 Repository = "https://github.com/miratcan/simsar-mcp"
 
 [project.scripts]

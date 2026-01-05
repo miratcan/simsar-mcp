@@ -27,6 +27,10 @@ Add to your `claude_desktop_config.json`:
 claude mcp add simsar -- uvx --from git+https://github.com/miratcan/simsar-mcp simsar-mcp
 ```
 
+## Website
+
+https://simsar.trade
+
 ## Features
 
 - **48 tools** for market analysis
