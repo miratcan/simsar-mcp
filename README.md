@@ -15,7 +15,7 @@ Add to your `claude_desktop_config.json`:
   "mcpServers": {
     "simsar": {
       "command": "uvx",
-      "args": ["simsar-mcp"]
+      "args": ["--from", "git+https://github.com/miratcan/simsar-mcp", "simsar-mcp"]
     }
   }
 }
@@ -24,7 +24,7 @@ Add to your `claude_desktop_config.json`:
 ### Claude Code
 
 ```bash
-claude mcp add simsar -- uvx simsar-mcp
+claude mcp add simsar -- uvx --from git+https://github.com/miratcan/simsar-mcp simsar-mcp
 ```
 
 ## Features
