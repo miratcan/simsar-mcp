@@ -851,6 +851,61 @@ def get_top_trader_ratio(symbol: str) -> str:
     return f"{data['symbol']} Top Traders L/S: {ratio:.2f} (Long:{long_pct:.1f}% Short:{short_pct:.1f}%)"
 
 
+# === Stock/Index Endpoints ===
+
+
+@mcp.tool()
+def get_index_quote(symbol: str) -> str:
+    """Get current quote for a stock index (US30, SPX, NASDAQ).
+
+    Use this to check traditional market conditions and their potential impact on crypto.
+    BTC often correlates with US stock indices.
+
+    Supported symbols:
+    - US30 / DJI: Dow Jones Industrial Average
+    - SPX / SP500: S&P 500
+    - NASDAQ / IXIC: Nasdaq Composite
+
+    Args:
+        symbol: Index symbol (e.g., US30, SPX, NASDAQ)
+
+    Returns:
+        Current index price with daily change percentage
+    """
+    data = _api_get(f"/index/quote/{symbol.upper()}")
+    change = data.get("change_percent")
+    change_str = f" ({'+' if change >= 0 else ''}{change}%)" if change is not None else ""
+    return f"{data['symbol']} ({data['name']}): ${data['price']:,.2f}{change_str}"
+
+
+@mcp.tool()
+def get_index_candles(
+    symbol: str,
+    interval: str = "1d",
+    range: str = "1mo",
+) -> str:
+    """Get OHLCV candles for a stock index.
+
+    Supported symbols: US30 (Dow Jones), SPX (S&P 500), NASDAQ
+
+    Args:
+        symbol: Index symbol (e.g., US30, SPX, NASDAQ)
+        interval: Candle interval - 1d, 1wk, 1mo
+        range: Date range - 5d, 1mo, 3mo, 6mo, 1y
+
+    Returns:
+        OHLCV candlestick data for the index
+    """
+    data = _api_get(f"/index/candles/{symbol.upper()}", {"interval": interval, "range": range})
+
+    lines = [f"{data['symbol']} ({data['name']}) {data['interval']}"]
+    for c in data["candles"]:
+        t = c["time"][:10]
+        lines.append(f"{t}: O:{c['open']:.0f} H:{c['high']:.0f} L:{c['low']:.0f} C:{c['close']:.0f} V:{_fmt_vol(c['volume'])}")
+
+    return "\n".join(lines)
+
+
 def main():
     """Run the MCP server."""
     mcp.run()
